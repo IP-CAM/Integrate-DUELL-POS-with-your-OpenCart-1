@@ -171,5 +171,5 @@ $registry->set('language', $language);
 
 $obj_duell = new Duell($registry);
 
-$result = $obj_duell->callDuellStockSync();
+$result = $obj_duell->callDuellStockSync('auto');
 ?>
