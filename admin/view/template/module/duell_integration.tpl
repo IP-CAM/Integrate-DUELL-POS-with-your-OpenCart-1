@@ -139,10 +139,10 @@ echo $header; ?>
         dataType: 'json',
         cache: false,
         beforeSend: function () {
-          $('#button-syncmanually').button('loading');
+          $('#button-syncmanually').text('loading...');
         },
         complete: function () {
-          $('#button-syncmanually').button('reset');
+          $('#button-syncmanually').text('<?php echo $text_duell_integration_manual_sync; ?>');
         },
         success: function (json) {
           console.log(json);
