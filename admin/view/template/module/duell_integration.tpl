@@ -1,3 +1,4 @@
+<div id="blocker" style="display: none;"><div><?php echo $text_duell_integration_processing; ?>...</div></div>
 <?php
 
 echo $header; ?>
@@ -143,8 +144,48 @@ echo $header; ?>
     border: 1px solid #e4e4e4;
     border-radius: 3px;
   }
+  #blocker
+  {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: .9;
+    background-color: #000;
+    z-index: 1000;
+    overflow: auto;
+
+  }
+  #blocker div
+  {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5em;
+    height: 2em;
+    margin: -1em 0 0 -2.5em;
+    color: #fff;
+    font-weight: bold;
+    font-size: 24px;
+  }
+
+
 </style>
-  <script type="text/javascript"><!--
+<script type="text/javascript"><!--
+
+    function blockUI(        )
+    {
+      $("#blocker").css('display', "");
+    }
+
+    function unblockUI(        )
+    {
+      $("#blocker").css('display', "none");
+    }
+
+
+
     var inProcess = false;
     $('#button-syncmanually').on('click', function () {
       if (inProcess == false) {
@@ -156,9 +197,11 @@ echo $header; ?>
           cache: false,
           beforeSend: function () {
             $('#button-syncmanually').text('<?php echo $text_duell_integration_processing; ?>...');
+            blockUI();
           },
           complete: function () {
             $('#button-syncmanually').text('<?php echo $text_duell_integration_manual_sync; ?>');
+            unblockUI();
             inProcess = false;
           },
           success: function (json) {
