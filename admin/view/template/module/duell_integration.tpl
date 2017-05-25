@@ -66,7 +66,20 @@ echo $header; ?>
           </tr>
 
 
-
+          <tr>
+            <td><?php echo $text_duell_integration_log_status; ?></td>
+            <td>
+              <select name="duell_integration_log_status" id="input-log-status" >
+                <?php if ($duell_integration_log_status==1 || $duell_integration_log_status=='') { ?>
+                <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
+                <option value="0"><?php echo $text_disabled; ?></option>
+                <?php } else { ?>
+                <option value="1"><?php echo $text_enabled; ?></option>
+                <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
+                <?php } ?>
+              </select>
+            </td>
+          </tr>
 
 
           <tr>
@@ -132,30 +145,35 @@ echo $header; ?>
   }
 </style>
   <script type="text/javascript"><!--
-  $('#button-syncmanually').on('click', function () {
-      $.ajax({
-        url: 'index.php?route=module/duell_integration/manualsync&token=<?php echo $token; ?>',
-        type: 'post',
-        dataType: 'json',
-        cache: false,
-        beforeSend: function () {
-          $('#button-syncmanually').text('loading...');
-        },
-        complete: function () {
-          $('#button-syncmanually').text('<?php echo $text_duell_integration_manual_sync; ?>');
-        },
-        success: function (json) {
-          console.log(json);
-          if (json['success']) {
-            alert(json['message']);
-          } else {
-            alert(json['message']);
+    var inProcess = false;
+    $('#button-syncmanually').on('click', function () {
+      if (inProcess == false) {
+        inProcess = true;
+        $.ajax({
+          url: 'index.php?route=module/duell_integration/manualsync&token=<?php echo $token; ?>',
+          type: 'post',
+          dataType: 'json',
+          cache: false,
+          beforeSend: function () {
+            $('#button-syncmanually').text('<?php echo $text_duell_integration_processing; ?>...');
+          },
+          complete: function () {
+            $('#button-syncmanually').text('<?php echo $text_duell_integration_manual_sync; ?>');
+            inProcess = false;
+          },
+          success: function (json) {
+            console.log(json);
+            if (json['success']) {
+              alert(json['message']);
+            } else {
+              alert(json['message']);
+            }
+          },
+          error: function (xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
           }
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-          alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-        }
-      });
+        });
+      }
 
     });
     //--></script>
