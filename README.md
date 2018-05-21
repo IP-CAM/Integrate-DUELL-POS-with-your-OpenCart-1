@@ -1,7 +1,7 @@
 Duell opencart-1x module
 =====================
 
-The purpose of this module is to manage & sync stocks at both opencard 1.x webshop and Duell. 
+The purpose of this module is to manage & sync stocks at both opencart 1.x webshop and Duell. 
 
 Prerequisites
 -------------
