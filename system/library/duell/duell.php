@@ -2,7 +2,7 @@
 
 class Duell {
 
-    private $url = 'https://duell.kasseservice.no/api/v1/';
+    private $url = 'https://api.kasseservice.no/v1/';
     private $loginAction = 'getaccesstokens';
     private $registry;
     private static $instance;
