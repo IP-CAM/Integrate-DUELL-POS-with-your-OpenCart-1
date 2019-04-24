@@ -4,13 +4,13 @@
 echo $header; ?>
 <div id="content">
   <div class="breadcrumb">
-        <?php foreach ($breadcrumbs as $breadcrumb) { ?>
-        <?php echo $breadcrumb['separator']; ?><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a>
-        <?php } ?>
-  </div>
-    <?php if ($error_warning) { ?>
-  <div class="warning"><?php echo $error_warning; ?></div>
+    <?php foreach ($breadcrumbs as $breadcrumb) { ?>
+    <?php echo $breadcrumb['separator']; ?><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a>
     <?php } ?>
+  </div>
+  <?php if ($error_warning) { ?>
+  <div class="warning"><?php echo $error_warning; ?></div>
+  <?php } ?>
 
   <div class="box">
     <div class="heading">
@@ -34,8 +34,8 @@ echo $header; ?>
             <td><?php echo $text_duell_integration_client_number; ?>
               <span class="help"><?php echo $help_text_duell_integration_client_number; ?></span>
             </td>
-            <td><input type="number" name="duell_integration_client_number" value="<?php echo $duell_integration_client_number; ?>" placeholder="<?php echo $text_duell_integration_client_number; ?>" />
-               <?php if ($error_duell_integration_client_number) { ?>
+            <td><input type="text" name="duell_integration_client_number" value="<?php echo $duell_integration_client_number; ?>" placeholder="<?php echo $text_duell_integration_client_number; ?>" />
+              <?php if ($error_duell_integration_client_number) { ?>
               <span class="error"><?php echo $error_duell_integration_client_number; ?></span>
               <?php } ?>
             </td>
@@ -47,7 +47,7 @@ echo $header; ?>
               <span class="help"><?php echo $help_text_duell_integration_client_token; ?></span>
             </td>
             <td><input size="50" type="text" name="duell_integration_client_token" value="<?php echo $duell_integration_client_token; ?>" placeholder="<?php echo $text_duell_integration_client_token; ?>" />
-               <?php if ($error_duell_integration_client_token) { ?>
+              <?php if ($error_duell_integration_client_token) { ?>
               <span class="error"><?php echo $error_duell_integration_client_token; ?></span>
               <?php } ?>
             </td>
@@ -60,7 +60,7 @@ echo $header; ?>
             </td>
             <td>
               <input size="50" type="text" name="duell_integration_department_token" value="<?php echo $duell_integration_department_token; ?>" placeholder="<?php echo $text_duell_integration_department_token; ?>"  />
-               <?php if ($error_duell_integration_department_token) { ?>
+              <?php if ($error_duell_integration_department_token) { ?>
               <span class="error"><?php echo $error_duell_integration_department_token; ?></span>
               <?php } ?>
             </td>
@@ -122,10 +122,10 @@ echo $header; ?>
         <p>  <b><?php echo $text_cron_steup_title_curl; ?></b></p>
         <ul  style="list-style-type:circle">
           <li>
-              <?php echo $text_every_hours; ?>:&nbsp; <b>* */3 * * * /usr/bin/curl <?php echo $cron_link; ?> >/dev/null 2>&1</b>
+            <?php echo $text_every_hours; ?>:&nbsp; <b>* */3 * * * /usr/bin/curl <?php echo $cron_link; ?> >/dev/null 2>&1</b>
           </li>
           <li>
-              <?php echo $text_every_night; ?>:&nbsp; <b>* 3 * * * /usr/bin/curl <?php echo $cron_link; ?> >/dev/null 2>&1</b>
+            <?php echo $text_every_night; ?>:&nbsp; <b>* 3 * * * /usr/bin/curl <?php echo $cron_link; ?> >/dev/null 2>&1</b>
           </li>
         </ul>
         <p>&nbsp;</p>
@@ -174,50 +174,50 @@ echo $header; ?>
 </style>
 <script type="text/javascript"><!--
 
-    function blockUI(        )
-    {
-      $("#blocker").css('display', "");
-    }
+  function blockUI(        )
+  {
+    $("#blocker").css('display', "");
+  }
 
-    function unblockUI(        )
-    {
-      $("#blocker").css('display', "none");
-    }
+  function unblockUI(        )
+  {
+    $("#blocker").css('display', "none");
+  }
 
 
 
-    var inProcess = false;
-    $('#button-syncmanually').on('click', function () {
-      if (inProcess == false) {
-        inProcess = true;
-        $.ajax({
-          url: 'index.php?route=module/duell_integration/manualsync&token=<?php echo $token; ?>',
-          type: 'post',
-          dataType: 'json',
-          cache: false,
-          beforeSend: function () {
-            $('#button-syncmanually').text('<?php echo $text_duell_integration_processing; ?>...');
-            blockUI();
-          },
-          complete: function () {
-            $('#button-syncmanually').text('<?php echo $text_duell_integration_manual_sync; ?>');
-            unblockUI();
-            inProcess = false;
-          },
-          success: function (json) {
-            console.log(json);
-            if (json['success']) {
-              alert(json['message']);
-            } else {
-              alert(json['message']);
-            }
-          },
-          error: function (xhr, ajaxOptions, thrownError) {
-            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+  var inProcess = false;
+  $('#button-syncmanually').on('click', function () {
+    if (inProcess == false) {
+      inProcess = true;
+      $.ajax({
+        url: 'index.php?route=module/duell_integration/manualsync&token=<?php echo $token; ?>',
+        type: 'post',
+        dataType: 'json',
+        cache: false,
+        beforeSend: function () {
+          $('#button-syncmanually').text('<?php echo $text_duell_integration_processing; ?>...');
+          blockUI();
+        },
+        complete: function () {
+          $('#button-syncmanually').text('<?php echo $text_duell_integration_manual_sync; ?>');
+          unblockUI();
+          inProcess = false;
+        },
+        success: function (json) {
+          console.log(json);
+          if (json['success']) {
+            alert(json['message']);
+          } else {
+            alert(json['message']);
           }
-        });
-      }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+          alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+      });
+    }
 
-    });
-    //--></script>
+  });
+  //--></script>
 <?php echo $footer; ?>
